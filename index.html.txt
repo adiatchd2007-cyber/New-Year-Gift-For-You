@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Sister 💗</title>
+
+<style>
+/* ===== PINK THEME ===== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #ffd1dc, #ffe6f0);
+  overflow-x: hidden;
+  text-align: center;
+}
+
+.page {
+  display: none;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.page.active { display: block; }
+
+h1, h2 {
+  color: #ff2f92;
+}
+
+/* ===== INPUT & BUTTON ===== */
+input {
+  padding: 12px;
+  border-radius: 20px;
+  border: none;
+  width: 200px;
+}
+
+button {
+  padding: 14px 28px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(45deg, #ff69b4, #ff1493);
+  color: white;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+button:hover { transform: scale(1.05); }
+
+/* ===== ANIMATIONS ===== */
+.kitty {
+  width: 180px;
+  animation: float 2s infinite;
+}
+
+.name {
+  font-size: 28px;
+  text-shadow: 0 0 10px #ff9acb;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ff9acb; }
+  to { text-shadow: 0 0 25px #ff4da6; }
+}
+
+/* ===== SLIDER ===== */
+.slider {
+  width: 90%;
+  max-width: 320px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.slides {
+  display: flex;
+  animation: slide 12s infinite;
+}
+
+.slides video {
+  width: 100%;
+  border-radius: 20px;
+}
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  33% { transform: translateX(-100%); }
+  66% { transform: translateX(-200%); }
+  100% { transform: translateX(0); }
+}
+
+/* ===== MESSAGE ===== */
+.message {
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 700px;
+  margin: auto;
+  color: #444;
+}
+
+/* ===== HEARTS ===== */
+.hearts span {
+  position: fixed;
+  animation: fall 6s linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10vh); opacity: 1; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
+
+/* ===== FIREWORKS ===== */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="music/bg-music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="hearts"></div>
+
+<!-- PAGE 0 : PASSWORD -->
+<div class="page active" id="page0">
+  <h2>🔐 Secret Entry</h2>
+  <input type="password" id="password" placeholder="Enter password">
+  <br>
+  <button onclick="checkPassword()">Enter 💖</button>
+  <p id="error"></p>
+</div>
+
+<!-- PAGE 1 : INTRO -->
+<div class="page" id="page1">
+  <img src="https://i.imgur.com/6Xb6ZsR.png" class="kitty">
+  <h1 class="name" id="nameText"></h1>
+  <button onclick="nextPage(2)">Happy New Year My Queen 👑</button>
+</div>
+
+<!-- PAGE 2 : PHOTOS -->
+<div class="page" id="page2">
+  <h2>Our Beautiful Memories 💞</h2>
+  <div class="slides">
+  <video src="videos/memory.mp4" autoplay muted loop playsinline></video>
+</div>
+ </div>
+  <button onclick="nextPage(3)">Next 💗</button>
+</div>
+
+<!-- PAGE 3 : MEMORY CARD 1 -->
+<div class="page" id="page3">
+  <h2>Memories of the Past Year 🌸</h2>
+  <p class="message" id="msg1"></p>
+  <button onclick="nextPage(4)">Next 💕</button>
+</div>
+
+<!-- PAGE 4 : MEMORY CARD 2 -->
+<div class="page" id="page4">
+  <h2>Your Strength 💫</h2>
+  <p class="message" id="msg2"></p>
+  <button onclick="nextPage(5)">Final Message 🎀</button>
+</div>
+
+<!-- PAGE 5 : FINAL -->
+<div class="page" id="page5">
+  <canvas id="fireworks"></canvas>
+  <h2>Welcome New Year 🌸</h2>
+  <p class="message" id="msg3"></p>
+  <button onclick="playMusic()">Play Music 🎵</button>
+</div>
+
+<script>
+/* ===== PASSWORD ===== */
+function checkPassword() {
+  if (document.getElementById("password").value === "2026") {
+    nextPage(1);
+    createHearts();
+  } else {
+    document.getElementById("error").innerText = "Wrong password 😅";
+  }
+}
+
+/* ===== PAGE SWITCH ===== */
+function nextPage(n) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page" + n).classList.add("active");
+
+  if (n === 3) typeText("msg1", msg1);
+  if (n === 4) typeText("msg2", msg2);
+  if (n === 5) typeText("msg3", msg3);
+}
+
+/* ===== NAME TYPING ===== */
+const nameText = "Hey My Beautiful Sister 🩷";
+let ni = 0;
+function typeName() {
+  if (ni < nameText.length) {
+    document.getElementById("nameText").innerHTML += nameText[ni];
+    ni++;
+    setTimeout(typeName, 80);
+  }
+}
+setTimeout(typeName, 800);
+
+/* ===== MESSAGES ===== */
+const msg1 = `This year has truly been one of the best years of my life.
+I learned so many things, and what makes me happiest is that most of what I learned came from you.
+
+Even if I stayed close to you for a very short time,
+even if I saw you only for a few moments,
+that itself was enough for me — enough to awaken my breath and the energy within me.
+
+Every moment I spent with you has been the happiest part of my entire year.
+Whether it was you applying colors on my face during Holi,
+comforting me when my results came,
+standing by my side at every turn,
+or tying the thread of your love on my wrist every Raksha Bandhan —
+everything means more to me than words can express.
+
+I don’t know why, but my bond with you feels different.
+Just the thought of you brings a smile to my face.
+I only pray that every year I get to create more beautiful memories with you
+and bring happiness into your life 💖✨`;
+
+const msg2 = `Now let me talk a little about you.
+
+Your year wasn’t easy — only you know how much you went through.
+Yet you handled everything so beautifully.
+You never broke; instead, you became stronger.
+
+Even when you felt lonely or tired,
+you still stood tall like a warrior.
+You are not just a woman —
+you are a Wonder Woman 💫
+
+If ever you felt alone and I wasn’t there for you,
+please forgive me.
+And if I ever hurt your heart unknowingly,
+I sincerely ask for your forgiveness 💛🙏`;
+
+const msg3 = `As this new year begins, my heart is filled with gratitude —
+for life, for lessons, and most importantly, for you 💫
+
+This new year is not just a change of dates;
+it’s a new chapter filled with hope, peace, and dreams.
+
+You have always been my strength, my inspiration, and my blessing.
+No matter how hard life became,
+you stood strong with courage and faith in your heart.
+You are truly extraordinary 💖
+
+I pray that this year brings you peace,
+answers all your silent prayers,
+fills your heart with calmness,
+and your life with happiness and light 🌸✨
+
+Happy New Year to the most beautiful soul —
+my sister, my strength, my forever blessing 🤍🎉`;
+
+/* ===== TYPE + AUTO SCROLL ===== */
+function typeText(id, text) {
+  let i = 0;
+  const el = document.getElementById(id);
+  el.innerHTML = "";
+  const inter = setInterval(() => {
+    if (i < text.length) {
+      el.innerHTML += text[i];
+      window.scrollBy(0, 1);
+      i++;
+    } else clearInterval(inter);
+  }, 35);
+}
+
+/* ===== MUSIC ===== */
+function playMusic() {
+  document.getElementById("bgMusic").play();
+}
+
+/* ===== HEARTS ===== */
+function createHearts() {
+  setInterval(() => {
+    const h = document.createElement("span");
+    h.innerHTML = "💗";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = Math.random() * 20 + 10 + "px";
+    document.querySelector(".hearts").appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }, 300);
+}
+
+/* ===== FIREWORKS ===== */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+setInterval(() => {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(let i=0;i<80;i++){
+    ctx.beginPath();
+    ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, 2, 0, Math.PI*2);
+    ctx.fillStyle = `hsl(${Math.random()*360},100%,70%)`;
+    ctx.fill();
+  }
+}, 700);
+</script>
+
+</body>
+</html>

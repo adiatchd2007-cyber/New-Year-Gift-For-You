@@ -85,9 +85,16 @@ button:hover { transform: scale(1.05); }
   animation: slide 12s infinite;
 }
 
-.slides video {
-  width: 100%;
+video {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 80vh;
   border-radius: 20px;
+  object-fit: cover;
+}
+
 }
 
 @keyframes slide {
@@ -323,6 +330,7 @@ setInterval(() => {
 
 </body>
 </html>
+
 
 
 
